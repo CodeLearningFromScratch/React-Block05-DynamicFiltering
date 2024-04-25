@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Filtering Block05</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js" crossorigin></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #root {
+            max-width: 107rem;
+            width: 100%;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            box-sizing: border-box;
+            background-color: lightblue;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+
+        .card-wrapper {
+            width: 12.5rem;
+            height: 16rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 0.6rem;
+            overflow: hidden;
+        }
+
+        img {
+            margin-top: auto;
+        }
+
+        .price {
+            margin-top: 1.25rem;
+        }
+
+        .category-list {
+            font-weight: 700;
+            margin: 0.6rem 0px;
+        }
+
+        input.input-categories {
+            max-width: 31rem;
+            width: 100%;
+            padding: 0.31rem;
+        }
+
+        h3 {
+            margin-bottom: 0.31rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react,stage-3">
+        const products = [
+            {
+                product: "flash t-shirt",
+                price: 27.5,
+                category: "t-shirts",
+                bestSeller: false,
+                image: "https://images-na.ssl-images-amazon.com/images/I/61ZipyCaAKL._AC_UX385_.jpg",
+                onSale: true,
+            },
+            {
+                product: "batman t-shirt",
+                price: 22.5,
+                category: "t-shirts",
+                bestSeller: true,
+                image: "https://s1.thcdn.com/productimg/1600/1600/11676326-1444552242012324.png",
+                onSale: false,
+            },
+            {
+                product: "superman hat",
+                price: 13.9,
+                category: "hats",
+                bestSeller: true,
+                image: "https://banner2.kisspng.com/20180429/rqe/kisspng-baseball-cap-superman-logo-batman-hat-5ae5ef317f8366.9727520615250184175223.jpg",
+                onSale: true,
+            },
+            {
+                product: "runner",
+                price: 99,
+                category: "shoes",
+                bestSeller: true,
+                image: "https://m.media-amazon.com/images/I/71r7GvGAunL._AC_SR1840,1472_.jpg",
+                onSale: true,
+            },
+            {
+                product: "vision",
+                price: 15.7,
+                category: "glasses",
+                bestSeller: true,
+                image: "https://m.media-amazon.com/images/I/718-NGWAigL.__AC_SX300_SY300_QL70_FMwebp_.jpg",
+                onSale: true,
+            },
+            {
+                product: "winter",
+                price: 65,
+                category: "jackets",
+                bestSeller: true,
+                image: "https://m.media-amazon.com/images/I/61pbgF3vDvL._AC_UL480_FMwebp_QL65_.jpg",
+                onSale: true,
+            },
+            {
+                product: "clothing",
+                price: 24,
+                category: "dresses",
+                bestSeller: true,
+                image: "https://m.media-amazon.com/images/I/71jb22qxOtL._MCnd_AC_UL480_FMwebp_QL65_.jpg",
+                onSale: true,
+            },
+            {
+                product: "trousers",
+                price: 112,
+                category: "jeans",
+                bestSeller: true,
+                image: "https://images.evo.com/imgp/700/34464/220425/levi-s-524-skinny-jeans-women-s-.jpg",
+                onSale: true,
+            }
+        ];
+
+        const App = () => {
+            const [category, setCategory] = React.useState('all');
+
+            const handleCategoryChange = (event) => {
+                let e = event.target.value
+                setCategory(e);
+            };
+
+            return (
+                <>
+                    <input className='input-categories' type="text" value={category} onChange={handleCategoryChange} />
+                    <div className='category-list'>Categories: t-shirts, hats, shoes, glasses, jackets, dresses, trousers</div>
+                    <div className='wrapper'>
+
+                        {products.filter(product => category === 'all' || product.category === category).length > 0 ? (
+                            products.map((product, index) => {
+                                if (category === 'all' || product.category === category) {
+                                    return (
+                                        <div className='card-wrapper' key={index}>
+                                            <h3>{product.product}</h3>
+                                            <p>Category: {product.category}</p>
+                                            <img style={{ height: '9rem' }} src={product.image} alt={product.product} />
+                                            <p className='price'>Price: {product.price}</p>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })
+                        ) : (
+                            <p>No products found</p>
+                        )}
+                    </div>
+                </>
+            );
+        };
+
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
+
